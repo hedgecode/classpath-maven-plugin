@@ -54,6 +54,9 @@ public class ClasspathMojo extends AbstractClasspathMojo {
     @Parameter( defaultValue = "${path.separator}", property = "pathSeparator", required = true )
     private String pathSeparator;
 
+    @Parameter( defaultValue = "false", property = "overlapDependencyMatch", required = true )
+    private boolean overlapDependencyMatch;
+
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
     private MavenProject project;
 
@@ -104,10 +107,29 @@ public class ClasspathMojo extends AbstractClasspathMojo {
 
     private void assignDependencyArtifacts(Set<Artifact> artifacts) {
         Set<Artifact> dependencyArtifacts = project.getDependencyArtifacts();
-        dependencyArtifacts.addAll(artifacts);
-        project.setDependencyArtifacts(dependencyArtifacts);
-        if (getLog().isInfoEnabled())
-            getLog().info("Added classpath artifacts: " + artifacts);
+
+        if (!artifacts.isEmpty() && !dependencyArtifacts.isEmpty()) {
+            Set<Artifact> excludedArtifacts = new LinkedHashSet<>();
+            for (Artifact artifact : artifacts) {
+                for (Artifact dArtifact : dependencyArtifacts) {
+                    if (artifact.equals(dArtifact)) {
+                        excludedArtifacts.add(
+                                overlapDependencyMatch ? dArtifact : artifact
+                        );
+                        break;
+                    }
+                }
+            }
+            if (overlapDependencyMatch)
+                dependencyArtifacts.removeAll(excludedArtifacts);
+            else
+                artifacts.removeAll(excludedArtifacts);
+
+            dependencyArtifacts.addAll(artifacts);
+            project.setDependencyArtifacts(dependencyArtifacts);
+            if (getLog().isInfoEnabled())
+                getLog().info("Added classpath artifacts: " + artifacts);
+        }
     }
 
     private void setOutputProperty(String cpString) throws MojoExecutionException {
