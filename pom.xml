@@ -1,0 +1,191 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+  ~ Copyright (c) 2015. Developed by HedgeCode.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.hedgecode.maven.plugins</groupId>
+    <artifactId>classpath-maven-plugin</artifactId>
+    <version>0.1-SNAPSHOT</version>
+    <packaging>maven-plugin</packaging>
+
+    <name>Hedgecode Classpath Maven Plugin</name>
+    <description>
+        The Hedgecode Classpath Plugin is used to add the different Java
+        libraries (e.g. non-maven jars) to the classpath of your project.
+    </description>
+    <inceptionYear>2015</inceptionYear>
+
+    <developers>
+        <developer>
+            <id>gotty</id>
+            <name>Dmitry Samoshin</name>
+            <email>gotty AT hedgecode DOT ru</email>
+            <url>http://www.samoshin.ru/</url>
+            <roles>
+                <role>architect</role>
+                <role>developer</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <url>${url.maven.plugins}/${project.artifactId}</url>
+
+    <prerequisites>
+        <maven>${mavenVersion}</maven>
+    </prerequisites>
+
+    <properties>
+        <mavenVersion>3.2.5</mavenVersion>
+        <mavenPluginPluginVersion>3.2</mavenPluginPluginVersion>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <url.root>http://hedgecode.org</url.root>
+        <url.maven>http://maven.hedgecode.org</url.maven>
+        <url.maven.plugins>${url.maven}/plugins</url.maven.plugins>
+    </properties>
+
+    <scm>
+        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}</connection>
+        <url>http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}</url>
+    </scm>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-plugin-api</artifactId>
+            <version>${mavenVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven</groupId>
+            <artifactId>maven-core</artifactId>
+            <version>${mavenVersion}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.2</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.2</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-plugin-plugin</artifactId>
+                <version>${mavenPluginPluginVersion}</version>
+                <configuration>
+                    <goalPrefix>classpath-maven-plugin</goalPrefix>
+                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>mojo-descriptor</id>
+                        <goals>
+                            <goal>descriptor</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>help-goal</id>
+                        <goals>
+                            <goal>helpmojo</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <configuration>
+                    <tagBase>svn://svn.hedgecode.org/maven/plugins/tags</tagBase>
+                    <branchBase>svn://svn.hedgecode.org/maven/plugins/branches</branchBase>
+                    <preparationGoals>clean install</preparationGoals>
+                    <goals>deploy</goals>
+                    <autoVersionSubmodules>true</autoVersionSubmodules>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>run-its</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-invoker-plugin</artifactId>
+                        <version>1.7</version>
+                        <configuration>
+                            <debug>true</debug>
+                            <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+                            <pomIncludes>
+                                <pomInclude>*/pom.xml</pomInclude>
+                            </pomIncludes>
+                            <postBuildHookScript>verify</postBuildHookScript>
+                            <localRepositoryPath>${project.build.directory}/local-repo</localRepositoryPath>
+                            <settingsFile>src/it/settings.xml</settingsFile>
+                            <goals>
+                                <goal>clean</goal>
+                                <goal>test-compile</goal>
+                            </goals>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>integration-test</id>
+                                <goals>
+                                    <goal>install</goal>
+                                    <goal>integration-test</goal>
+                                    <goal>verify</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+    <distributionManagement>
+        <repository>
+            <id>hedgecode-release</id>
+            <url>http://repo.hedgecode.org/content/repositories/releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>hedgecode-snapshot</id>
+            <url>http://repo.hedgecode.org/content/repositories/snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+</project>
