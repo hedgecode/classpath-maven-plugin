@@ -60,7 +60,7 @@
     </properties>
 
     <scm>
-        <connection>scm:svn:svn://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-0.1</connection>
+        <connection>scm:svn://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-0.1</connection>
         <url>svn://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-0.1</url>
     </scm>
 
