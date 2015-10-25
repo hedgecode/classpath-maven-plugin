@@ -1,0 +1,103 @@
+ ------
+ Add third party libraries to the project classpath
+ ------
+ Dmitry Samoshin aka gotty
+ ------
+ 2015-10-25
+ ------
+
+~~ Copyright (c) 2015. Developed by HedgeCode.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Add third party libraries to the project classpath
+
+  Sometimes there is a situation where for the correct build of your project need to
+  include a specific third-party libraries that are not found in the maven repository.
+
+  For example, if the build of your project will later run in a specific environment
+  with a pre-attached libraries (as an example: in a servlet container or
+  application server), and you are going to use library classes in your project.
+
+  In this case, you can include them to your project for the correct compilation,
+  having the presence jar-libraries. Some examples of such inclusions are described below.
+
+  General view of the plugin adding to the project as follows:
+
++-------
+<project>
+    ...
+    <build>
+        ...
+        <plugins>
+            <plugin>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    [...set the parameters of the plugin here...]
+                </configuration>
+            </plugin>
+        </plugins>
+        ...
+    </build>
+    ...
+</project>
++-------
+
+===
+
+  <<1.>> You can add a separate third-party library in the classpath of your project
+  to a successful compilation (in this example, <<<foo-api.jar>>> library
+  from the <<<lib/>>> directory of your project):
+
++-------
+<configuration>
+    <path>lib/foo-api.jar</path>
+    <isMask>false</isMask>
+</configuration>
++-------
+  (<<<isMask=false>>> parameter means that the <<<path>>> parameter
+  contains a specific library, but not a mask for the search).
+
+===
+
+  <<2а.>> If you want to add a few libraries in the classpath of your project,
+  in that case they can be enumerated by the following construction
+  (in this example: <<<foo-api.jar>>> and <<<bar-api.jar>>> libraries):
+
++-------
+<configuration>
+    <paths>
+        <path>lib/foo-api.jar</path>
+        <path>lib/bar-api.jar</path>
+    </paths>
+    <isMask>false</isMask>
+</configuration>
++-------
+
+===
+
+  <<2б.>> Or take the opportunity to specify a mask to find files
+  (in this example: all the libraries ending in <<<*-api.jar>>>
+  from the <<<lib/>>> directory of your project):
+
++-------
+<configuration>
+    <path>lib/*-api.jar</path>
+    <isMask>true</isMask>
+</configuration>
++-------

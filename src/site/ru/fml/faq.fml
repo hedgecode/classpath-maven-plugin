@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015. Developed by HedgeCode.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<faqs xmlns="http://maven.apache.org/FML/1.0.1"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+      title="Часто Задаваемые Вопросы">
+    <part id="general">
+        <title>Основные вопросы:</title>
+        <faq id="how-to-add-all-libs-in-directory">
+            <question>
+                Как включить в classpath все jar-библиотеки из указанного каталога (например, lib/)?
+            </question>
+            <answer>
+                <p>
+                    Необходимо в секцию <code>configuration</code>
+                    описываемого артефакта <code>classpath-maven-plugin</code>
+                    добавить следующие строки:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;path&gt;lib/*.jar&lt;/path&gt;
+            &lt;isMask&gt;true&lt;/isMask&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    Параметр <code>path</code> указывает на маску поиска всех jar-библиотек
+                    в каталоге <code>lib/</code> (относительный путь от корня вашего проекта),
+                    а параметр <code>isMask = true</code> укажет плагину <code>classpath-maven-plugin</code>,
+                    что передаваемый параметр <code>path</code> является маской для поиска файлов.
+                </p>
+            </answer>
+        </faq>
+        <faq id="how-to-add-all-libs-in-directory-with-subdirs">
+            <question>
+                Как включить в classpath все jar-библиотеки из указанного каталога, включая подкаталоги?
+            </question>
+            <answer>
+                <p>
+                    Помимо параметров, описанных в
+                    <a href="#how-to-add-all-libs-in-directory">предыдущем вопросе</a>,
+                    необходимо добавить в секцию <code>configuration</code>
+                    описываемого артефакта <code>classpath-maven-plugin</code>
+                    параметр <code>withSubDir = true</code>:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;path&gt;lib/*.jar&lt;/path&gt;
+            &lt;isMask&gt;true&lt;/isMask&gt;
+            &lt;withSubDir&gt;false&lt;/withSubDir&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    В этом случае, описываемый плагин будет искать все jar-библиотеки
+                    (маска <code>*.jar</code>), начиная с каталога <code>lib/</code>,
+                    и включая все его подкаталоги (параметр <code>withSubDir = true</code>).
+                </p>
+            </answer>
+        </faq>
+        <faq id="how-to-manage-of-adding-libs-if-lib-already-exists">
+            <question>
+                Как управлять подключением jar-библиотеки, если через dependency она уже подключена (возможно, другой версии)?
+            </question>
+            <answer>
+                <p>
+                    В описываемом плагине существует возможность управлять такими коллизиями,
+                    как совпадение jar-библиотек, уже подключенных через <code>dependency</code>,
+                    c библиотеками, подключаемыми при помощи <code>classpath-maven-plugin</code>.
+                    За это отвечает параметр <code>overlapDependencyMatch</code>
+                    в секции <code>configuration</code>:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;overlapDependencyMatch&gt;true&lt;/overlapDependencyMatch&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    Если параметр выставлен в <code>true</code>,
+                    то все найденные при помощи описываемого плагина библиотеки,
+                    при совпадении с уже имеющимися в <code>dependency</code>
+                    (вне зависимости от версий совпавших артефактов), пропишутся в classpath
+                    взамен <code>dependency</code>-библиотек. Если же параметр равен <code>false</code>
+                    (значение по умолчанию), то в classpath останутся <code>dependency</code>-библиотеки.
+                </p>
+            </answer>
+        </faq>
+    </part>
+    <part id="additional">
+        <title>Дополнительно:</title>
+        <faq id="how-to-save-classpath-to-variable-or-file-without-adding">
+            <question>
+                Как записать полученный classpath в файл или переменную проекта без непосредственного подключения jar-библиотек?
+            </question>
+            <answer>
+                <p>
+                    В описываемом плагине существует возможность не переопределять classpath
+                    вашего проекта напрямую, а записать полученную classpath-строку в файл или
+                    переменную проекта (с последующим доступом к ней через <code>${variableName}</code>).
+                    Для этого параметр <code>assignProjectClasspath</code> выставляется в <code>false</code>,
+                    и указываются выходные параметры для записи classpath-строки:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;assignProjectClasspath&gt;false&lt;/assignProjectClasspath&gt;
+            &lt;outputFile&gt;${project.build.directory}/classpath.txt&lt;/outputFile&gt;
+            &lt;outputProperty&gt;variableName&lt;/outputProperty&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    В качестве выходного параметра в который будет помещена classpath-строка
+                    могут выступать:
+                    <br><code>outputFile</code> - файл на диске;</br>
+                    <code>outputProperty</code> - переменная вашего проекта.
+                </p>
+            </answer>
+        </faq>
+        <faq id="how-to-out-error-if-libs-not-found">
+            <question>
+                Как включить вывод ошибки, если ни одной jar-библиотеки не найдено (для одного path)?
+            </question>
+            <answer>
+                <p>
+                    Вывод ошибки с остановкой дальнейшей работы плагина при остутствии
+                    найденных jar-библиотек для отдельного входного параметра конфигурации
+                    <code>path</code> задается в секции <code>configuration</code>
+                    при помощи параметра <code>errorIsEmptyPath = true</code>:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;errorIsEmptyPath&gt;true&lt;/errorIsEmptyPath&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    Вышеуказааное относится как к поиску по маске (<code>isMask = true</code>),
+                    так и для указания конкретной jar-библиотеки во входных параметрах поиска
+                    (либо для одиночного параметра <code>path</code>, либо для каждого
+                    <code>path</code> из набора в секции <code>paths</code>).
+                </p>
+            </answer>
+        </faq>
+    </part>
+</faqs>

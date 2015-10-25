@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015. Developed by HedgeCode.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<document>
+    <properties>
+        <title>Скачать</title>
+    </properties>
+    <body>
+        <section name="Загрузка ${project.name}">
+
+            <p>${project.name} ${project.version} доступен как в двоичном формате (JAR артефакт), так и в исходных кодах.</p>
+
+            <subsection name="${project.name} ${project.version} Двоичный Формат">
+                <p>
+                    Это текущая стабильная версия ${project.name}:<br />
+                    <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar">${project.artifactId}-${project.version}.jar</a>
+                    и её <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar.md5">MD5</a> сумма.
+                </p>
+            </subsection>
+
+            <subsection name="Предыдущие Версии">
+                <p>Старые release-версии ${project.artifactId} доступны на странице <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/">Hedgecode Release Repository</a>.</p>
+                <p>Старые snapshot-версии ${project.artifactId} доступны на странице <a href="http://repo.hedgecode.org/content/repositories/snapshots/org/hedgecode/maven/plugins/${project.artifactId}/">Hedgecode Snapshot Repository</a>.</p>
+            </subsection>
+
+            <subsection name="${project.name} ${project.version} Исходный Код">
+                <p>Исходный код ${project.artifactId} доступен в <a href="http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}/">Hedgecode Subversion Repository</a>.</p>
+                <p>Исходный код ${project.name} распространяется под лицензией <a href="http://www.apache.org/licenses/">Apache License, version 2.0</a>.</p>
+            </subsection>
+
+        </section>
+    </body>
+</document>
+

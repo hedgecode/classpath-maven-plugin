@@ -1,0 +1,79 @@
+ ------
+ Переопределение зависимостей стандартных maven библиотек
+ ------
+ Dmitry Samoshin aka gotty
+ ------
+ 2015-10-22
+ ------
+
+~~ Copyright (c) 2015. Developed by HedgeCode.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Переопределение зависимостей стандартных maven библиотек
+
+  Представим ситуацию, когда ваш проект использует какую-либо библиотеку
+  из maven репозитория, имеющую номер стабильной сборки и подключенную
+  стандартным образом в <<<pom.xml>>> через зависимости (dependencies).
+  И в какой-то момент настает необходимость проверить корректность сборки
+  и, соответственно, последующей работы вашего проекта с более новой версией
+  этой же библиотеки (например, <<<SNAPSHOT>>>-версии), но которой,
+  по определенным причинам, нет еще в наличии в maven репозитории.
+
+  В этом случае описываемый плагин предоставляет возможность,
+  не меняя глобальной структуры dependencies вашего проекта,
+  "подложить" новую версию библиотеки в структуру проекта
+  (например, в каталог <<<lib/>>>), и при помощи параметра конфигурации
+  <<<overlapDependencyMatch>>> проверить сборку с этой версией библиотеки.
+  Плагин просто переопределит зависимость (depenedency) для
+  последующей компиляции, обнаружив совпадение библиотек.
+
+  Пример всего вышеописанного выглядит следующим образом
+  (подразумевается, что в maven репозитории имеется стабильная
+  библиотека <<<foo-1.0.jar>>>, вместо которой мы будем использовать
+  при сборке новую тестовую версию <<<foo-1.1-SNAPSHOT.jar>>>):
+
++-------
+<project>
+    ...
+    <dependencies>
+        ...
+        <dependency>
+            <artifactId>foo</artifactId>
+            <version>1.0</version>
+        </dependency>
+        ...
+    </dependencies>
+    ...
+    <build>
+        ...
+        <plugins>
+            <plugin>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    <path>lib/foo-1.1-SNAPSHOT.jar</path>
+                    <isMask>false</isMask>
+                    <overlapDependencyMatch>true</overlapDependencyMatch>
+                </configuration>
+            </plugin>
+        </plugins>
+        ...
+    </build>
+    ...
+</project>
++-------

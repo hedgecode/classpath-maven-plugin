@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~ Copyright (c) 2015. Developed by HedgeCode.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~   http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+-->
+
+<faqs xmlns="http://maven.apache.org/FML/1.0.1"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://maven.apache.org/FML/1.0.1 http://maven.apache.org/xsd/fml-1.0.1.xsd"
+      title="Frequently Asked Questions">
+    <part id="general">
+        <title>General:</title>
+        <faq id="how-to-add-all-libs-in-directory">
+            <question>
+                How to add to the classpath all jar-libraries in the specified directory (for example, lib/)?
+            </question>
+            <answer>
+                <p>
+                    It's necessary to add the following lines
+                    to the section <code>configuration</code>
+                    of the described artifact <code>classpath-maven-plugin</code>:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;path&gt;lib/*.jar&lt;/path&gt;
+            &lt;isMask&gt;true&lt;/isMask&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    The <code>path</code> parameter specifies a search mask for all jar-libraries
+                    in the directory <code>lib/</code> (relative path from the root of your project),
+                    and the <code>isMask = true</code> parameter specifies to the plugin
+                    <code>classpath-maven-plugin </code>, that the passed parameter <code>path</code> is a mask for file search.
+                </p>
+            </answer>
+        </faq>
+        <faq id="how-to-add-all-libs-in-directory-with-subdirs">
+            <question>
+                How to add to the classpath all jar-libraries in the specified directory including subdirectories?
+            </question>
+            <answer>
+                <p>
+                    In addition to the parameters described in the
+                    <a href="#how-to-add-all-libs-in-directory">previous question</a>,
+                    you must add <code>withSubDir = true</code> parameter to the section
+                    <code>configuration</code> of the described artifact
+                    <code>classpath-maven-plugin</code>:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;path&gt;lib/*.jar&lt;/path&gt;
+            &lt;isMask&gt;true&lt;/isMask&gt;
+            &lt;withSubDir&gt;false&lt;/withSubDir&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    In this case, the described plugin will search all jar-libraries
+                    (mask <code>*.jar</code>) starting from the directory <code>lib/</code>
+                    and including all its subdirectories (option <code>withSubDir = true</code>).
+                </p>
+            </answer>
+        </faq>
+        <faq id="how-to-manage-of-adding-libs-if-lib-already-exists">
+            <question>
+                How to manage of the jar-libraries adding, if it is already added through dependency (possibly other version)?
+            </question>
+            <answer>
+                <p>
+                    In the described plugin it is possible to manage such collisions
+                    as a overlap of jar-libraries already connected via <code>dependency</code>
+                    with libraries connected via the <code>classpath-maven-plugin</code>.
+                    The <code>overlapDependencyMatch</code> parameter
+                    in the section <code>configuration</code> is responsible for this:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;overlapDependencyMatch&gt;true&lt;/overlapDependencyMatch&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    If this parameter is set to <code>true</code>,
+                    then all the found library for matching those already in the
+                    <code>dependency</code> (regardless of the version of matched artifacts)
+                    will rewrite the classpath instead of <code>dependency</code>-libraries.
+                    If the parameter is set to <code>false</code> (by default),
+                    then <code>dependency</code>-libraries will remain in the classpath.
+                </p>
+            </answer>
+        </faq>
+    </part>
+    <part id="additional">
+        <title>Additional:</title>
+        <faq id="how-to-save-classpath-in-variable-or-file-without-adding">
+            <question>
+                How to save the resulting classpath to the file or project variable without the direct jar-libraries adding?
+            </question>
+            <answer>
+                <p>
+                    In the described plugin it is possible to not override the classpath
+                    of your project directly, but write the resulting classpath-string to the file or
+                    project variable (with subsequent access to it via <code>${variableName}</code>).
+                    For this the <code>assignProjectClasspath</code> parameter is set to <code>false</code>,
+                    and adding the following output parameters for writing classpath-string:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;assignProjectClasspath&gt;false&lt;/assignProjectClasspath&gt;
+            &lt;outputFile&gt;${project.build.directory}/classpath.txt&lt;/outputFile&gt;
+            &lt;outputProperty&gt;variableName&lt;/outputProperty&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    As an output parameter which classpath-string will be placed may be:
+                    <br><code>outputFile</code> - file on the disk;</br>
+                    <code>outputProperty</code> - project variable.
+                </p>
+            </answer>
+        </faq>
+        <faq id="how-to-out-error-if-libs-not-found">
+            <question>
+                How to enable error output if no one jar-libraries are not found (for a single path)?
+            </question>
+            <answer>
+                <p>
+                    Error output with stopping further plugin work in the absence of found
+                    jar-libraries for a single input configuration parameter <code>path</code>
+                    is specified in the section <code>configuration</code>
+                    with the parameter <code>errorIsEmptyPath = true</code>:
+                    <pre>
+        &lt;configuration&gt;
+            ...
+            &lt;errorIsEmptyPath&gt;true&lt;/errorIsEmptyPath&gt;
+            ...
+        &lt;/configuration&gt;</pre>
+                    This applies both to search by mask (<code>isMask = true</code>),
+                    and to indicate the specific jar-library in the input parameters of search
+                    (or for a single parameter <code>path</code>, or <code>path</code>
+                    for each of a set of section <code>paths</code>).
+                </p>
+            </answer>
+        </faq>
+    </part>
+</faqs>

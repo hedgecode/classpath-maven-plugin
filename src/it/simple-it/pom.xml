@@ -22,7 +22,7 @@
 
   <groupId>org.hedgecode.maven.plugins.it</groupId>
   <artifactId>simple-it</artifactId>
-  <version>0.2-SNAPSHOT</version>
+  <version>1.0</version>
 
   <description>A simple IT verifying the basic use case.</description>
 

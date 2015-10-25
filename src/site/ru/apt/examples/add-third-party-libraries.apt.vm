@@ -1,0 +1,103 @@
+ ------
+ Добавление сторонних библиотек в classpath проекта
+ ------
+ Dmitry Samoshin aka gotty
+ ------
+ 2015-10-22
+ ------
+
+~~ Copyright (c) 2015. Developed by HedgeCode.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Добавление сторонних библиотек в classpath проекта
+
+  Иногда возникает ситуация, когда для корректной сборки вашего проекта необходимо
+  подключить специфичные сторонние библиотеки, которых нет в maven репозитариях.
+
+  Например, если сборка вашего проекта будет в последствии запускаться в определенной среде
+  с заранее подключенными библиотеками (как пример: в контейнере сервлетов или на
+  сервере приложений), и вы собираетесь использовать классы данных библиотек в своем проекте.
+
+  В этом случае вы можете, имея в наличии jar-архивы данных библиотек, подключить их к
+  своему проекту для корректной компиляции. Некоторые из примеров такого подключения описаны ниже.
+
+  Общий вид подключения описываемого плагина к проекту выглядит следующим образом:
+
++-------
+<project>
+    ...
+    <build>
+        ...
+        <plugins>
+            <plugin>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>${project.artifactId}</artifactId>
+                <version>${project.version}</version>
+                <configuration>
+                    [...здесь задаются параметры плагина...]
+                </configuration>
+            </plugin>
+        </plugins>
+        ...
+    </build>
+    ...
+</project>
++-------
+
+===
+
+  <<1.>> Вы можете добавить отдельную стороннюю библиотеку
+  в classpath вашего проекта для успешной компиляции
+  (в данном примере: библиотека <<<foo-api.jar>>> из каталога <<<lib/>>> вашего проекта):
+
++-------
+<configuration>
+    <path>lib/foo-api.jar</path>
+    <isMask>false</isMask>
+</configuration>
++-------
+  (параметр <<<isMask = false>>> означает, что в параметре <<<path>>>
+  указана конкретная библиотека, а не маска для поиска).
+
+===
+
+  <<2а.>> Если необходимо добавить несколько библиотек в classpath вашего проекта,
+  то, в таком случае, их можно перечислить с помощью следующей конструкции
+  (в данном примере: библиотеки <<<foo-api.jar>>> и <<<bar-api.jar>>>):
+
++-------
+<configuration>
+    <paths>
+        <path>lib/foo-api.jar</path>
+        <path>lib/bar-api.jar</path>
+    </paths>
+    <isMask>false</isMask>
+</configuration>
++-------
+
+===
+
+  <<2б.>> Или же воспользоваться возможностью задания маски для поиска файлов
+  (в данном примере: все библиотеки, заканчивающиеся на <<<*-api.jar>>>,
+  в каталоге <<<lib/>>> вашего проекта):
+
++-------
+<configuration>
+    <path>lib/*-api.jar</path>
+    <isMask>true</isMask>
+</configuration>
++-------

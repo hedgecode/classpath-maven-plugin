@@ -1,0 +1,67 @@
+ ------
+ Alternative method of adding dependencies by using variable
+ ------
+ Dmitry Samoshin aka gotty
+ ------
+ 2015-10-25
+ ------
+
+~~ Copyright (c) 2015. Developed by HedgeCode.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+Alternative method of adding dependencies by using variable
+
+  Alternative method of adding third-party libraries to the project
+  at compile time is the use of variable which will be recorded formed classpath,
+  followed by specifying the <<<maven-compiler-plugin>>> line compilation
+  overriding argument classpath.
+
+  This option may be necessary when you need to keep the original
+  dependencies of the maven project (from <<<pom.xml>>>).
+
+  Recording formed classpath variable (in this example:
+  <<<your.classpath.property>>>) as follows:
+
++-------
+<plugin>
+    <groupId>${project.groupId}</groupId>
+    <artifactId>${project.artifactId}</artifactId>
+    <version>${project.version}</version>
+    <configuration>
+        <path>lib/*.jar</path>
+        <isMask>true</isMask>
+        <outputProperty>your.classpath.property</outputProperty>
+        <assignProjectClasspath>false</assignProjectClasspath>
+    </configuration>
+</plugin>
++-------
+
+  Plugin <<<maven-compiler-plugin>>> configuration to compile of
+  your project in this case it should look something like this:
+
++-------
+<plugin>
+    <groupId>org.apache.maven.plugins</groupId>
+    <artifactId>maven-compiler-plugin</artifactId>
+    <configuration>
+        <compilerArgs>
+            <arg>-classpath</arg>
+            <arg>${maven.compile.classpath}${path.separator}${your.classpath.property}</arg>
+        </compilerArgs>
+    </configuration>
+</plugin>
++-------

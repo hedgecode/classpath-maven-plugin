@@ -1,0 +1,61 @@
+ ------
+ Введение
+ ------
+ Dmitry Samoshin aka gotty
+ ------
+ 2015-04-08
+ ------
+
+~~ Copyright (c) 2015. Developed by HedgeCode.
+~~
+~~ Licensed under the Apache License, Version 2.0 (the "License");
+~~ you may not use this file except in compliance with the License.
+~~ You may obtain a copy of the License at
+~~
+~~   http://www.apache.org/licenses/LICENSE-2.0
+~~
+~~ Unless required by applicable law or agreed to in writing, software
+~~ distributed under the License is distributed on an "AS IS" BASIS,
+~~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+~~ See the License for the specific language governing permissions and
+~~ limitations under the License.
+
+~~ NOTE: For help with the syntax of this file, see:
+~~ http://maven.apache.org/doxia/references/apt-format.html
+
+${project.name}
+
+  Hedgecode Classpath Plugin используется для добавления различных Java-библиотек
+  (например, jar-библиотек, которых нет в maven репозиториях) в classpath вашего проекта.
+
+  Текущая версия плагина:
+  {{{http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}}${project.version}}}
+
+* Обзор Целей
+
+  Hedgecode Classpath Plugin имеет одну главную цель:
+
+  * {{{./classpath-mojo.html}classpath:classpath}} используется для подключения
+  к classpath проекта различных сторонних jar-библиотек.
+  Данную цель рекомендуется использовать в фазе жизненного цикла <<generate-resources>>.
+
+* Использование
+
+  Общие инструкции о том, как использовать данный плагин можно найти на {{{./usage.html}этой странице}}.
+
+  Некоторые более конкретные случаи использования описаны в примерах, приведенных ниже.
+
+  В случае, если у вас все еще есть вопросы, касающиеся использования плагина,
+  пожалуйста, обратитесь к {{{./faq.html}ЧаВо}}.
+
+* Примеры
+
+  Чтобы лучше понять описываемый плагин, вы можете обратиться к следующим примерам:
+
+  * {{{./examples/add-third-party-libraries.html}Добавление сторонних библиотек в classpath проекта}}
+
+  * {{{./examples/overlap-maven-library.html}Переопределение зависимостей стандартных maven библиотек}}
+
+  * {{{./examples/alter-method-through-using-variable.html}Альтернативный способ добавления зависимостей с помощью переменной}}
+
+  []
