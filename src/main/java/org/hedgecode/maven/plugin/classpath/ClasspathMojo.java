@@ -35,28 +35,56 @@ import org.hedgecode.maven.plugin.classpath.artifact.JarClasspathArtifact;
 import org.hedgecode.maven.plugin.classpath.util.FileStringUtils;
 
 /**
- * Generate the classpath from a set of files.
+ * Generates a set of library artifacts based on the input search parameters
+ * and overwrites project dependencies for further compilation.
  *
  * @author Dmitry Samoshin aka gotty
  */
 @Mojo( name = "classpath", defaultPhase = LifecyclePhase.GENERATE_RESOURCES )
 public class ClasspathMojo extends AbstractClasspathMojo {
 
+    /**
+     * Overwrites <code>dependencies</code> of your project
+     * if <code>true</code> by adding the found libraries.
+     */
     @Parameter( defaultValue = "true", property = "assignProjectClasspath", required = true )
     private boolean assignProjectClasspath;
 
+    /**
+     * Writes the resulting classpath with the found libraries
+     * to the specified project variable if the parameter is not <code>null</code>.
+     */
     @Parameter( property = "outputProperty", required = false )
     private String outputProperty;
 
+    /**
+     * Saves the resulting classpath with the found libraries
+     * to the specified file if the parameter is not <code>null</code>.
+     */
     @Parameter( property = "outputFile", required = false )
     private File outputFile;
 
+    /**
+     * Path separator for the current Operation System.<br />
+     * This is used to generate classpath string of {@link #outputProperty}.
+     */
     @Parameter( defaultValue = "${path.separator}", property = "pathSeparator", required = true )
     private String pathSeparator;
 
+    /**
+     * If <code>true</code> it will rewrite <code>dependencies</code>
+     * with the found libraries in the case of matching artifacts,
+     * otherwise (by default) matched <code>dependency</code> libraries remain unchanged.
+     *
+     * @since 0.2
+     */
     @Parameter( defaultValue = "false", property = "overlapDependencyMatch", required = true )
     private boolean overlapDependencyMatch;
 
+    /**
+     * The current project instance.<br />
+     * This is used for access and modify project dependencies and set project properties.
+     */
     @Parameter( defaultValue = "${project}", readonly = true, required = true )
     private MavenProject project;
 
@@ -106,9 +134,8 @@ public class ClasspathMojo extends AbstractClasspathMojo {
     }
 
     private void assignDependencyArtifacts(Set<Artifact> artifacts) {
-        Set<Artifact> dependencyArtifacts = project.getDependencyArtifacts();
-
-        if (!artifacts.isEmpty() && !dependencyArtifacts.isEmpty()) {
+        if (!artifacts.isEmpty()) {
+            Set<Artifact> dependencyArtifacts = project.getDependencyArtifacts();
             Set<Artifact> excludedArtifacts = new LinkedHashSet<>();
             for (Artifact artifact : artifacts) {
                 for (Artifact dArtifact : dependencyArtifacts) {
@@ -120,15 +147,19 @@ public class ClasspathMojo extends AbstractClasspathMojo {
                     }
                 }
             }
-            if (overlapDependencyMatch)
-                dependencyArtifacts.removeAll(excludedArtifacts);
-            else
-                artifacts.removeAll(excludedArtifacts);
-
+            if (!excludedArtifacts.isEmpty()) {
+                if (overlapDependencyMatch)
+                    dependencyArtifacts.removeAll(excludedArtifacts);
+                else
+                    artifacts.removeAll(excludedArtifacts);
+            }
             dependencyArtifacts.addAll(artifacts);
             project.setDependencyArtifacts(dependencyArtifacts);
             if (getLog().isInfoEnabled())
                 getLog().info("Added classpath artifacts: " + artifacts);
+        } else {
+            if (getLog().isInfoEnabled())
+                getLog().info("Not found classpath artifacts to add");
         }
     }
 

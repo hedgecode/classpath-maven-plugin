@@ -75,7 +75,7 @@ Add third party libraries to the project classpath
 
 ===
 
-  <<2а.>> If you want to add a few libraries in the classpath of your project,
+  <<2a.>> If you want to add a few libraries in the classpath of your project,
   in that case they can be enumerated by the following construction
   (in this example: <<<foo-api.jar>>> and <<<bar-api.jar>>> libraries):
 
@@ -91,7 +91,7 @@ Add third party libraries to the project classpath
 
 ===
 
-  <<2б.>> Or take the opportunity to specify a mask to find files
+  <<2b.>> Or take the opportunity to specify a mask to find files
   (in this example: all the libraries ending in <<<*-api.jar>>>
   from the <<<lib/>>> directory of your project):
 

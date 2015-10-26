@@ -31,27 +31,60 @@ import org.hedgecode.maven.plugin.classpath.util.FileFinderException;
 import org.hedgecode.maven.plugin.classpath.util.WithSubDirFinder;
 
 /**
- * Base class that collects set of classpath JAR files by patterns.
+ * Base class that generates set of JAR files by input patterns.
  *
  * @author Dmitry Samoshin aka gotty
  */
 public abstract class AbstractClasspathMojo extends AbstractMojo
 {
+    /**
+     * Specifies a library name or a mask for library search.<br />
+     * It can be specified as an absolute path, and with a relative.
+     */
     @Parameter( property = "path", required = false )
     private String path;
 
+    /**
+     * Set of input parameters {@link #path} for definition
+     * of several specific libraries or multiple masks for library search.<br />
+     * Example:<br />
+     * <pre>
+     * &lt;paths&gt;
+     *   &lt;path&gt;foo.jar&lt;/path&gt;
+     *   &lt;path&gt;bar.jar&lt;/path&gt;
+     * &lt;/paths&gt;
+     * </pre>
+     */
     @Parameter( property = "paths", required = false )
     private String[] paths;
 
+    /**
+     * Specifies that input parameter {@link #path} or each path from {@link #paths}
+     * is a specific library (<code>false</code>) or a mask for library search (<code>true</code>).
+     */
     @Parameter( defaultValue = "true",  property = "isMask", required = true )
     private boolean isMask;
 
+    /**
+     * If <code>true</code> it will search libraries starting from the directory
+     * contained in {@link #path} or each path from {@link #paths} and including all its subdirectories.<br />
+     * This is used only together with the input paramater {@link #isMask} = <code>true</code>.
+     */
     @Parameter( defaultValue = "false",  property = "withSubDir", required = true )
     private boolean withSubDir;
 
+    /**
+     * If <code>true</code> it will stop further plugin execution in the absence of found libraries
+     * for a single input configuration parameter {@link #path} or each path from {@link #paths},
+     * otherwise (<code>false</code>, by default) will continue plugin execution.
+     */
     @Parameter( defaultValue = "false", property = "errorIsEmptyPath", required = true )
     private boolean errorIsEmptyPath;
 
+    /**
+     * The project base directory.<br />
+     * This is used as root directory for search by relative paths.
+     */
     @Parameter( defaultValue = "${basedir}", readonly = true, required = true )
     private File projectBasedir;
 

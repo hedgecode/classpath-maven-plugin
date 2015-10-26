@@ -130,7 +130,7 @@
             </question>
             <answer>
                 <p>
-                    Error output with stopping further plugin work in the absence of found
+                    Error output with stopping further plugin execution in the absence of found
                     jar-libraries for a single input configuration parameter <code>path</code>
                     is specified in the section <code>configuration</code>
                     with the parameter <code>errorIsEmptyPath = true</code>:

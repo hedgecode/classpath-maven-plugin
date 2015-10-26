@@ -29,7 +29,7 @@ Overlap dependencies of the maven libraries
   from the maven repository, having a stable build number and inclusion
   of standard way in <<<pom.xml>>> through dependencies.
   And at some point comes the need to validate of the build
-  and work of your project with a newer version
+  and execution of your project with a newer version
   the same library (e.g. <<<SNAPSHOT>>>-version), but which,
   for some reason, there isn't still available in the maven repository.
 
