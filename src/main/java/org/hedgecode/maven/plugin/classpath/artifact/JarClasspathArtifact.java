@@ -32,7 +32,7 @@ import org.hedgecode.maven.plugin.classpath.jar.JarExtractor;
  */
 public class JarClasspathArtifact extends SystemClasspathArtifact {
 
-    public static final String TYPE  = "jar";
+    public static final String TYPE = "jar";
 
     protected JarClasspathArtifact(
             File jarFile, String groupId, String artifactId, VersionRange versionRange
@@ -48,13 +48,13 @@ public class JarClasspathArtifact extends SystemClasspathArtifact {
     }
 
     public static final class Factory {
-        
+
         private Factory() {
         }
-        
+
         public static Artifact create(File jarFile) throws MojoExecutionException {
             ClasspathArtifactVO artifactVO = JarExtractor.extract(jarFile);
-            
+
             return new JarClasspathArtifact(
                     jarFile,
                     artifactVO.getGroupId(),
@@ -62,6 +62,6 @@ public class JarClasspathArtifact extends SystemClasspathArtifact {
                     VersionRange.createFromVersion(artifactVO.getVersion())
             );
         }
-        
+
     }
 }

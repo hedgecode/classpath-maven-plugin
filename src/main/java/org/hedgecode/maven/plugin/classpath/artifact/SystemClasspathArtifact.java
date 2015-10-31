@@ -30,7 +30,7 @@ import org.apache.maven.artifact.versioning.VersionRange;
  */
 public abstract class SystemClasspathArtifact extends DefaultArtifact {
 
-    private static final String CLASSPATH_SCOPE  = "system";
+    private static final String CLASSPATH_SCOPE = "system";
 
     protected SystemClasspathArtifact(
             File systemFile, String groupId, String artifactId, VersionRange versionRange, String type, ArtifactHandler artifactHandler
