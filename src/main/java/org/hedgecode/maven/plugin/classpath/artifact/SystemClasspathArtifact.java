@@ -26,7 +26,7 @@ import org.apache.maven.artifact.versioning.VersionRange;
  * Maven artifact with system scope.
  *
  * @author Dmitry Samoshin aka gotty
- * @see {@link org.apache.maven.artifact.Artifact}
+ * @see org.apache.maven.artifact.Artifact
  */
 public abstract class SystemClasspathArtifact extends DefaultArtifact {
 

@@ -28,7 +28,7 @@ import org.hedgecode.maven.plugin.classpath.jar.JarExtractor;
  * Maven artifact with system scope for JAR libraries.
  *
  * @author Dmitry Samoshin aka gotty
- * @see {@link org.apache.maven.artifact.Artifact}
+ * @see org.apache.maven.artifact.Artifact
  */
 public class JarClasspathArtifact extends SystemClasspathArtifact {
 

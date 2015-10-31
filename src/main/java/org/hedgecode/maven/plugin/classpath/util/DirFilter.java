@@ -22,7 +22,7 @@ import java.io.FileFilter;
  * Directory filter for list of {@link File}.
  *
  * @author Dmitry Samoshin aka gotty
- * @see {@link FileFilter}
+ * @see FileFilter
  */
 public class DirFilter implements FileFilter {
 

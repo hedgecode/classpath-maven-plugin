@@ -22,7 +22,7 @@ import java.io.FilenameFilter;
  * Mask filter for list of {@link File}.
  *
  * @author Dmitry Samoshin aka gotty
- * @see {@link FilenameFilter}
+ * @see java.io.FilenameFilter
  */
 public class MaskFilter implements FilenameFilter {
 

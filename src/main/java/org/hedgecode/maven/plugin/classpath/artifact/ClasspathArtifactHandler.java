@@ -21,7 +21,7 @@ import org.apache.maven.artifact.handler.DefaultArtifactHandler;
  * Handler for maven artifacts that always is on classpath.
  *
  * @author Dmitry Samoshin aka gotty
- * @see {@link org.apache.maven.artifact.handler.ArtifactHandler}
+ * @see org.apache.maven.artifact.handler.ArtifactHandler
  */
 public class ClasspathArtifactHandler extends DefaultArtifactHandler {
 
