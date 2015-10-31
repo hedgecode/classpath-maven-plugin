@@ -19,33 +19,8 @@
 <project xmlns="http://maven.apache.org/DECORATION/1.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
-    <skin>
-        <groupId>org.apache.maven.skins</groupId>
-        <artifactId>maven-fluido-skin</artifactId>
-        <version>1.3.1</version>
-    </skin>
-    <custom>
-        <fluidoSkin>
-            <breadcrumbDivider>>></breadcrumbDivider>
-        </fluidoSkin>
-    </custom>
-    <bannerLeft>
-        <name>Hedgecode Maven Logo</name>
-        <src>images/maven_logo.png</src>
-        <href>${project.url.root}</href>
-    </bannerLeft>
-    <bannerRight>
-        <name>Hedgecode Maven Plugins</name>
-        <src>images/maven_plugins.png</src>
-        <href>${project.url.maven}</href>
-    </bannerRight>
-    <version position="none"/>
-    <publishDate position="none"/>
     <body>
         <breadcrumbs>
-            <item name="Hedgecode" href="${project.url.root}"/>
-            <item name="Maven" href="${project.url.maven}"/>
-            <item name="Plugins" href="${project.url.maven.plugins}"/>
             <item name="${project.artifactId}" href="${project.url}"/>
         </breadcrumbs>
         <links>

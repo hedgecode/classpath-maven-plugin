@@ -20,7 +20,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.hedgecode.maven.plugins</groupId>
+    <parent>
+        <groupId>org.hedgecode.maven.plugins</groupId>
+        <artifactId>maven-plugins</artifactId>
+        <version>1-SNAPSHOT</version>
+        <relativePath>../maven-plugins/pom.xml</relativePath>
+    </parent>
+
     <artifactId>classpath-maven-plugin</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
@@ -32,40 +38,29 @@
     </description>
     <inceptionYear>2015</inceptionYear>
 
-    <developers>
-        <developer>
-            <id>gotty</id>
-            <name>Dmitry Samoshin</name>
-            <email>gotty AT hedgecode DOT ru</email>
-            <url>http://www.samoshin.ru/</url>
-            <roles>
-                <role>architect</role>
-                <role>developer</role>
-            </roles>
-        </developer>
-    </developers>
-
-    <url>${url.maven.plugins}/${project.artifactId}</url>
+    <url>http://maven.hedgecode.org/plugins/classpath-maven-plugin/</url>
 
     <prerequisites>
         <maven>${mavenVersion}</maven>
     </prerequisites>
 
-    <properties>
-        <mavenVersion>3.2.5</mavenVersion>
-        <mavenPluginPluginVersion>3.2</mavenPluginPluginVersion>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <url.root>http://hedgecode.org</url.root>
-        <url.maven>http://maven.hedgecode.org</url.maven>
-        <url.maven.plugins>${url.maven}/plugins</url.maven.plugins>
-    </properties>
-
     <scm>
-        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}</connection>
-        <url>http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}</url>
+        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</connection>
+        <developerConnection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</developerConnection>
+        <url>http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</url>
     </scm>
 
+    <properties>
+        <mavenVersion>3.2.5</mavenVersion>
+        <junitVersion>4.8.2</junitVersion>
+    </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
@@ -76,104 +71,38 @@
             <artifactId>maven-core</artifactId>
             <version>${mavenVersion}</version>
         </dependency>
-        <dependency>
-            <groupId>org.apache.maven.plugin-tools</groupId>
-            <artifactId>maven-plugin-annotations</artifactId>
-            <version>3.2</version>
-            <scope>provided</scope>
-        </dependency>
 
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.8.2</version>
+            <version>${junitVersion}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <source>1.7</source>
-                    <target>1.7</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-plugin-plugin</artifactId>
-                <version>${mavenPluginPluginVersion}</version>
-                <configuration>
-                    <goalPrefix>classpath-maven-plugin</goalPrefix>
-                    <skipErrorNoDescriptorsFound>true</skipErrorNoDescriptorsFound>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>mojo-descriptor</id>
-                        <goals>
-                            <goal>descriptor</goal>
-                        </goals>
-                    </execution>
-                    <execution>
-                        <id>help-goal</id>
-                        <goals>
-                            <goal>helpmojo</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-release-plugin</artifactId>
-                <configuration>
-                    <tagBase>http://svn.hedgecode.org/maven/plugins/tags</tagBase>
-                    <branchBase>http://svn.hedgecode.org/maven/plugins/branches</branchBase>
-                    <preparationGoals>clean install</preparationGoals>
-                    <goals>deploy</goals>
-                    <autoVersionSubmodules>true</autoVersionSubmodules>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <locales>en,ru</locales>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 
     <reporting>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-plugin-plugin</artifactId>
-                <version>${mavenPluginPluginVersion}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.7</version>
                 <configuration>
-                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled><!-- waiting for MPIR-267 -->
+                    <dependencyLocationsEnabled>false</dependencyLocationsEnabled>
                 </configuration>
                 <reportSets>
                     <reportSet>
                         <reports>
                             <report>index</report>
-                            <report>summary</report>
-                            <report>dependency-info</report>
-                            <report>modules</report>
                             <report>project-team</report>
                             <report>scm</report>
+                            <report>dependency-info</report>
                             <report>dependency-management</report>
                             <report>dependencies</report>
-                            <report>dependency-convergence</report>
+                            <!--report>dependency-convergence</report-->
+                            <report>modules</report>
                             <report>plugin-management</report>
                             <report>plugins</report>
                             <report>distribution-management</report>
+                            <report>summary</report>
                         </reports>
                     </reportSet>
                 </reportSets>
@@ -189,7 +118,6 @@
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-invoker-plugin</artifactId>
-                        <version>1.7</version>
                         <configuration>
                             <debug>true</debug>
                             <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
@@ -218,41 +146,6 @@
                 </plugins>
             </build>
         </profile>
-        <profile>
-            <id>maven-3</id>
-            <activation>
-                <file>
-                    <exists>${basedir}</exists>
-                </file>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-site-plugin</artifactId>
-                        <executions>
-                            <execution>
-                                <id>attach-descriptor</id>
-                                <goals>
-                                    <goal>attach-descriptor</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
     </profiles>
-
-    <distributionManagement>
-        <repository>
-            <id>hedgecode-release</id>
-            <url>http://repo.hedgecode.org/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-            <id>hedgecode-snapshot</id>
-            <url>http://repo.hedgecode.org/content/repositories/snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 
 </project>
