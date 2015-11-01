@@ -21,11 +21,11 @@
          xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
     <body>
         <breadcrumbs>
-            <item name="${project.artifactId}" href="${project.url}"/>
+            <item name="${project.artifactId}" href="/"/>
         </breadcrumbs>
         <links>
-            <item name="ENG" href="${project.url}"/>
-            <item name="RUS" href= "${project.url}/ru"/>
+            <item name="ENG" href="index.html"/>
+            <item name="RUS" href="ru/index.html"/>
         </links>
         <menu name="Overview">
             <item name="Introduction" href="index.html"/>
