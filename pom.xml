@@ -27,7 +27,7 @@
     </parent>
 
     <artifactId>classpath-maven-plugin</artifactId>
-    <version>1.0</version>
+    <version>1.1-SNAPSHOT</version>
     <packaging>maven-plugin</packaging>
 
     <name>Hedgecode Classpath Maven Plugin</name>
@@ -44,9 +44,9 @@
     </prerequisites>
 
     <scm>
-        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-1.0</connection>
-        <developerConnection>scm:svn:http://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-1.0</developerConnection>
-        <url>http://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-1.0</url>
+        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</connection>
+        <developerConnection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</developerConnection>
+        <url>http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</url>
     </scm>
 
     <distributionManagement>
