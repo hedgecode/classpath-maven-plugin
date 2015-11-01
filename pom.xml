@@ -16,8 +16,7 @@
   ~ limitations under the License.
 -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
@@ -28,7 +27,7 @@
     </parent>
 
     <artifactId>classpath-maven-plugin</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>maven-plugin</packaging>
 
     <name>Hedgecode Classpath Maven Plugin</name>
@@ -45,9 +44,9 @@
     </prerequisites>
 
     <scm>
-        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</connection>
-        <developerConnection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</developerConnection>
-        <url>http://svn.hedgecode.org/maven/plugins/trunk/classpath-maven-plugin/</url>
+        <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-1.0</connection>
+        <developerConnection>scm:svn:http://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-1.0</developerConnection>
+        <url>http://svn.hedgecode.org/maven/plugins/tags/classpath-maven-plugin-1.0</url>
     </scm>
 
     <distributionManagement>
