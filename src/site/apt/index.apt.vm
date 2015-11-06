@@ -28,7 +28,7 @@ ${project.name}
   ${project.description}
 
   The current version of the plugin:
-  {{{http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}}${project.version}}}
+  {{{http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar}${project.version}}}
 
 * Goals Overview
 

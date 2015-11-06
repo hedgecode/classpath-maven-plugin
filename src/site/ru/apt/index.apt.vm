@@ -29,7 +29,7 @@ ${project.name}
   (например, jar-библиотек, которых нет в maven репозиториях) в classpath вашего проекта.
 
   Текущая версия плагина:
-  {{{http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}}${project.version}}}
+  {{{http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar}${project.version}}}
 
 * Обзор Целей
 

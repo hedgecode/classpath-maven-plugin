@@ -45,47 +45,47 @@ public class JarExtractor {
     private static final String DEF_VERSION = "1.0.0";
 
 
-    public static ClasspathArtifactVO extract(File file) throws MojoExecutionException {
-
+    public static ClasspathArtifactVO extract(File file) throws MojoExecutionException
+    {
         ClasspathArtifactVO result;
-        JarFile jarFile;
-        Manifest manifest;
 
-        try {
-            jarFile = new JarFile(file);
-            manifest = jarFile.getManifest();
-        } catch (IOException e) {
-            throw new MojoExecutionException("Error while opening JAR file '" + file + "': ", e);
-        }
+        try (JarFile jarFile = new JarFile(file))
+        {
+            Manifest manifest = jarFile.getManifest();
 
-        if (manifest != null) {
-            result = ManifestExtractor.extract(manifest);
-        } else {
-            result = new ClasspathArtifactVO();
-        }
+            if (manifest != null) {
+                result = ManifestExtractor.extract(manifest);
+            } else {
+                result = new ClasspathArtifactVO();
+            }
 
-        Matcher matcher = NAME_PATTERN.matcher(file.getName());
-        if (matcher.find()) {
-            result.setArtifactId(matcher.group(1));
-            if (result.getVersion() == null || result.getVersion().isEmpty())
-                result.setVersion(matcher.group(2));
-        }
+            Matcher matcher = NAME_PATTERN.matcher(file.getName());
+            if (matcher.find()) {
+                result.setArtifactId(matcher.group(1));
+                if (result.getVersion() == null || result.getVersion().isEmpty())
+                    result.setVersion(matcher.group(2));
+            }
 
-        if (result.getGroupId() == null || result.getGroupId().isEmpty()) {
-            Enumeration<JarEntry> entries = jarFile.entries();
-            while(entries.hasMoreElements())
-            {
-                JarEntry jarEntry = entries.nextElement();
-                if (FileStringUtils.isExtType(jarEntry.getName(), JAVA_BIN_CLASS_EXT)) {
-                    String groupId = FileStringUtils.getJavaPath(jarEntry.getName());
-                    if (groupId != null) {
-                        result.setGroupId(groupId);
-                        break;
+            if (result.getGroupId() == null || result.getGroupId().isEmpty()) {
+                Enumeration<JarEntry> entries = jarFile.entries();
+                while (entries.hasMoreElements())
+                {
+                    JarEntry jarEntry = entries.nextElement();
+                    if (FileStringUtils.isExtType(jarEntry.getName(), JAVA_BIN_CLASS_EXT)) {
+                        String groupId = FileStringUtils.getJavaPath(jarEntry.getName());
+                        if (groupId != null) {
+                            result.setGroupId(groupId);
+                            break;
+                        }
                     }
                 }
             }
+            assignDefArtifactValues(result);
+        } catch (IOException e) {
+            throw new MojoExecutionException(
+                    "Error while opening JAR file '" + file + "': ", e
+            );
         }
-        assignDefArtifactValues(result);
 
         return result;
     }

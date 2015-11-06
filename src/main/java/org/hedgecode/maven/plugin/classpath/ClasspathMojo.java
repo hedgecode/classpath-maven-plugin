@@ -15,11 +15,12 @@
  */
 package org.hedgecode.maven.plugin.classpath;
 
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.nio.charset.Charset;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -170,10 +171,14 @@ public class ClasspathMojo extends AbstractClasspathMojo {
     }
 
     private void writeClasspathToFile(String cpString) throws MojoExecutionException {
-        outputFile.getParentFile().mkdirs();
-        Writer w = null;
-        try {
-            w = new BufferedWriter(new FileWriter(outputFile));
+        if (outputFile.getParentFile().mkdirs())
+            if (getLog().isInfoEnabled())
+                getLog().info("Create directory tree for '" + outputFile + "'.");
+        try (
+                Writer w = new OutputStreamWriter(
+                        new FileOutputStream(outputFile), Charset.defaultCharset()
+                )
+        ) {
             w.write(cpString);
             if (getLog().isInfoEnabled())
                 getLog().info("Wrote classpath to file '" + outputFile + "'.");
@@ -181,11 +186,6 @@ public class ClasspathMojo extends AbstractClasspathMojo {
             String errorMsg = "Error while writing classpath to file '" + outputFile + "': " + ex.toString();
             getLog().error(errorMsg);
             throw new MojoExecutionException(errorMsg, ex);
-        } finally {
-            if (w != null)
-                try {
-                    w.close();
-                } catch (IOException ignored) {}
         }
     }
 
