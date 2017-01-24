@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-  ~ Copyright (c) 2015. Developed by HedgeCode.
+  ~ Copyright (c) 2015. Developed by Hedgecode.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -27,7 +27,7 @@
 
             <subsection name="${project.name} ${project.version} Двоичный Формат">
                 <p>
-                    Это текущая стабильная версия ${project.name}:<br />
+                    Текущая стабильная версия ${project.name}:<br />
                     <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar">${project.artifactId}-${project.version}.jar</a>
                     и её <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}.jar.md5">MD5</a> сумма.
                 </p>
@@ -39,6 +39,10 @@
             </subsection>
 
             <subsection name="${project.name} ${project.version} Исходный Код">
+                <p>Архивы с javadoc и исходными кодами текущей версии плагина:
+                    <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}-javadoc.jar">javadoc</a>,
+                    <a href="http://repo.hedgecode.org/content/repositories/releases/org/hedgecode/maven/plugins/${project.artifactId}/${project.version}/${project.artifactId}-${project.version}-sources.jar">sources</a>.
+                </p>
                 <p>Исходный код ${project.artifactId} доступен в <a href="http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}/">Hedgecode Subversion Repository</a>.</p>
                 <p>Исходный код ${project.name} распространяется под лицензией <a href="http://www.apache.org/licenses/">Apache License, version 2.0</a>.</p>
             </subsection>

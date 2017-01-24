@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 
 <!--
-  ~ Copyright (c) 2015. Developed by HedgeCode.
+  ~ Copyright (c) 2015. Developed by Hedgecode.
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
   ~ you may not use this file except in compliance with the License.
@@ -46,27 +46,27 @@
 
     <scm>
         <connection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}/</connection>
-        <developerConnection>scm:svn:http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}/</developerConnection>
+        <developerConnection>scm:svn:https://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}/</developerConnection>
         <url>http://svn.hedgecode.org/maven/plugins/trunk/${project.artifactId}/</url>
     </scm>
 
     <issueManagement>
         <system>JIRA</system>
-        <url>http://issues.hedgecode.org/browse/${issueKey}/component/${issueComponentID}</url>
+        <url>http://issues.hedgecode.org/browse/${issueKey}/component/${issueComponentId}</url>
     </issueManagement>
 
     <distributionManagement>
         <site>
             <id>hedgecode.website</id>
             <name>Hedgecode Maven Plugins Website</name>
-            <url>dav:http://hedgecode.org/maven/plugins/${project.artifactId}/</url>
+            <url>dav:https://hedgecode.org/maven/plugins/${project.artifactId}/</url>
         </site>
     </distributionManagement>
 
     <properties>
         <mavenVersion>3.2.5</mavenVersion>
         <junitVersion>4.8.2</junitVersion>
-        <issueComponentID>10010</issueComponentID>
+        <issueComponentId>10010</issueComponentId>
         <issueNumber>5</issueNumber>
     </properties>
 
